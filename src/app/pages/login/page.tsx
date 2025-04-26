@@ -5,9 +5,9 @@ export default function LoginPage() {
         <h1 className="text-3xl font-bold mb-6">Iniciar sesión</h1>
         <form className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-md">
           <div className="mb-4">
-            <label className="block mb-1 text-sm font-medium dark:text-white">Correo electrónico</label>
+            <label className="block mb-1 text-sm font-medium dark:text-white">Usuario</label>
             <input
-              type="email"
+              type="userName"
               className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-gray-100 dark:bg-gray-700 text-black dark:text-white"
             />
           </div>

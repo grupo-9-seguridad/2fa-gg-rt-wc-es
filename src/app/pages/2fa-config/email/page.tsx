@@ -1,16 +1,51 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useRegister } from '@/context/RegisterContext'
+import { apiPost, getErrorMessage } from '@/lib/api'
 
 export default function SetupEmail() {
+  const { data, setData } = useRegister()
   const [email, setEmail] = useState('')
+  const [error, setError] = useState('')
+  const router = useRouter()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Email ingresado:', email)
-    // Aquí enviarías el correo con el código de confirmación
+    setError('')
+  
+    if (!email) {
+      setError('Debes ingresar un correo electrónico.')
+      return
+    }
+  
+    try {
+      setData({
+        ...data,
+        email,
+      })
+      console.log(data)
+      const requestData = {
+        username: data.userName,
+        password: data.password,
+        tipo2FA: data.selected2FAMethod,
+        email: email,
+        telefono: '',
+        gauth: false,
+      };
+console.log(requestData)
+      await apiPost('/registro', requestData)
+  
+      router.push('/pages/login')
+  
+    } catch (err) {
+      const niceError = getErrorMessage(err)
+      setError(niceError)
+    }
   }
+  
 
   return (
     <main className="flex flex-col items-center justify-center h-screen bg-[var(--background)] text-[var(--foreground)] px-6 transition-colors duration-300">
@@ -18,6 +53,7 @@ export default function SetupEmail() {
       <p className="mb-6 text-center max-w-sm">
         Ingresa tu correo electrónico. Te enviaremos un código para confirmar tu dirección.
       </p>
+
       <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-sm">
         <input
           type="email"
@@ -32,6 +68,8 @@ export default function SetupEmail() {
         <Link href="/pages/2fa-config" className="block mt-4 text-sm text-blue-400 hover:underline text-center">
           ← Volver a selección de método
         </Link>
+
+        {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
       </form>
     </main>
   )

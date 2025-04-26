@@ -3,7 +3,7 @@
 import Link from 'next/link'
 
 export default function SetupApp() {
-  const secret = 'ABC123XYZ456' // Puedes generar uno dinámicamente desde backend
+  const secret = 'ABC123XYZ456'
 
   return (
     <main className="flex flex-col items-center justify-center h-screen bg-[var(--background)] text-[var(--foreground)] px-6 transition-colors duration-300">
