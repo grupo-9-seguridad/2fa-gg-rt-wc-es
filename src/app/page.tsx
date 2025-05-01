@@ -7,8 +7,11 @@ export default function Home() {
         Autenticación 2FA
       </h1>
       <p className="text-lg max-w-xl">
-        La autenticación de dos factores (2FA) es un método de verificación que añade una capa extra de seguridad
-        al requerir dos formas de identificación: algo que sabes (contraseña) y algo que tienes (como un código enviado a tu celular).
+        Por favor Inicia sesión o regístrate para acceder a la aplicación.
+        <br />
+        <br />
+        La autenticación de dos factores (2FA) añade una capa adicional de seguridad a tu cuenta, asegurando que solo tú puedas acceder a ella.
+        <br /><br />
       </p>
       <div className="mt-8 space-x-4">
         <Link href="/pages/login" className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">

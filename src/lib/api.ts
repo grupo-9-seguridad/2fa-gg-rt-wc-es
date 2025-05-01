@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
 const instance  = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8081/api/auth',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://192.168.100.44:8080/api/auth',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

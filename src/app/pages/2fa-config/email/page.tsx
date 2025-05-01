@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useRegister } from '@/context/RegisterContext'
-import { apiPost, getErrorMessage } from '@/lib/api'
+import api, { apiPost, getErrorMessage } from '@/lib/api'
 
 export default function SetupEmail() {
   const { data, setData } = useRegister()
@@ -26,7 +26,7 @@ export default function SetupEmail() {
         ...data,
         email,
       })
-      console.log(data)
+
       const requestData = {
         username: data.userName,
         password: data.password,
@@ -35,10 +35,23 @@ export default function SetupEmail() {
         telefono: '',
         gauth: false,
       };
-console.log(requestData)
-      await apiPost('/registro', requestData)
+      console.log(requestData)
+
+      const response = await api.post("/updateUsr", 
+        requestData
+      )
   
-      router.push('/pages/login')
+      if(response.data.hasError){
+        return setError(response.data.message)
+      }
+  
+      const verifier = await api.post('/FactorGenerate', requestData)
+
+      if(verifier.data.hasError){
+        return setError(verifier.data.message)
+      }
+
+      router.replace('/pages/2fa-config/email/verify')
   
     } catch (err) {
       const niceError = getErrorMessage(err)
@@ -68,7 +81,6 @@ console.log(requestData)
         <Link href="/pages/2fa-config" className="block mt-4 text-sm text-blue-400 hover:underline text-center">
           ← Volver a selección de método
         </Link>
-
         {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
       </form>
     </main>

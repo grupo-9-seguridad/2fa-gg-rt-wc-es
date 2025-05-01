@@ -4,8 +4,10 @@ import { createContext, useContext, useState, ReactNode } from 'react'
 
 type RegisterData = {
   userName: string
-  email: string
   password: string
+  email?: string
+  phone?: string
+  qrCode?: string
   selected2FAMethod?: 'sms' | 'email' | 'app'
 }
 
@@ -19,9 +21,11 @@ const RegisterContext = createContext<RegisterContextType | undefined>(undefined
 export function RegisterProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<RegisterData>({
     userName: '',
-    email: '',
     password: '',
-    selected2FAMethod: undefined, // opcional al principio
+    email: '',
+    phone: '',
+    qrCode: '',
+    selected2FAMethod: undefined,
   })
 
   return (

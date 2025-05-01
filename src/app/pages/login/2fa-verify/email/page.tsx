@@ -1,15 +1,55 @@
 'use client'
 
+import { useRegister } from '@/context/RegisterContext'
+import api from '@/lib/api'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 export default function EmailVerification() {
+  const { data } = useRegister()
   const [code, setCode] = useState('')
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState("")
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
+  
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Código email:', code)
+    setError('')
+    setSuccess("")
+    setLoading(true)
+
+    try {
+      const response = await api.post('/verificar-2fa', {
+        username: data.userName,
+        codigo: code,
+        recordar: false
+      })
+
+      if (response.data.hasError) {
+        setError(response.data.message || 'Código incorrecto.')
+      } else {
+        setSuccess('Acceso exitoso. Redirigiendo...')
+      }
+
+    } catch (err) {
+      console.error(err)
+      setError('Error al verificar el código.')
+    } finally {
+      setLoading(false)
+    }
   }
+
+  useEffect(() => {
+    if (success !== '') {
+      const timer = setTimeout(() => {
+        router.replace('/pages/dashboard')
+      }, 5000)
+  
+      return () => clearTimeout(timer)
+    }
+  }, [success, router])
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-4">
@@ -30,9 +70,8 @@ export default function EmailVerification() {
         >
           Verificar código
         </button>
-        <Link href="/2fa-method" className="block mt-4 text-sm text-blue-400 hover:underline text-center">
-          ← Volver a selección de método
-        </Link>
+        {success && <p className="mt-4 text-green-500">{success}</p>}
+        {error && <p className="mt-4 text-red-500">{error}</p>}
       </form>
     </main>
   )
