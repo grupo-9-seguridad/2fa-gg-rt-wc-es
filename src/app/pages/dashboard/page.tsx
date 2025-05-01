@@ -12,7 +12,7 @@ export default function DashboardPage() {
                 <h2 className="text-xl font-semibold mb-4">Datos del usuario:</h2>
                 <ul className="space-y-2 text-left">
                     <li><strong>Nombre de usuario:</strong> {data.userName.toUpperCase()}</li>
-                    <li><strong>Método 2FA seleccionado:</strong> {data.selected2FAMethod.toUpperCase()}</li>
+                    <li><strong>Método 2FA seleccionado:</strong> {data.selected2FAMethod ? data.selected2FAMethod.toUpperCase() : ''}</li>
                 </ul>
 
             </div>
