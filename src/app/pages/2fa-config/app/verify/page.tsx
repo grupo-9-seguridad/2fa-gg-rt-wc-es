@@ -3,7 +3,7 @@
 import { useRegister } from '@/context/RegisterContext'
 import api from '@/lib/api'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function AppVerifyPage() {
   const { data } = useRegister()
@@ -38,13 +38,23 @@ export default function AppVerifyPage() {
       setLoading(false)
     }
 
-    if (success) {
-      const timer = setTimeout(() => {
-        router.replace("/dashboard")
-      }, 5000)
-      return () => clearTimeout(timer)
-    }
+    // if (success) {
+    //   const timer = setTimeout(() => {
+    //     router.replace("/dashboard")
+    //   }, 5000)
+    //   return () => clearTimeout(timer)
+    // }
   }
+
+  useEffect(() => {
+      if (success) {
+        const timer = setTimeout(() => {
+          router.replace('/pages/dashboard')
+        }, 5000)
+    
+        return () => clearTimeout(timer)
+      }
+    }, [success, router])
 
   return (
     <main className="flex flex-col items-center justify-center h-screen bg-[var(--background)] text-[var(--foreground)] px-6 transition-colors duration-300">

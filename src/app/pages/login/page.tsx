@@ -9,13 +9,13 @@ export default function LoginPage() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
-  const { setData } = useRegister()
+  const {data, setData, resetData } = useRegister()
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-
+    resetData();
     try {
       const response = await api.post('/login', {
         username,
@@ -35,19 +35,18 @@ export default function LoginPage() {
         console.log(requestData)
 
         const verifier = await api.post('/FactorGenerate', requestData)
-        console.log(verifier)
+        console.log("verifier", verifier.data.message)
         if(verifier.data.hasError){
           return setError(verifier.data.message)
         }    
-
+        setData({ userName: username, password })
       // if (response.data.tiene2FA) {
         // router.replace("/pages/dashboard")
-        router.replace(`/pages/login/2fa-verify/${response.data.messag}`)
+        router.replace(`/pages/login/2fa-verify/${verifier.data.message}`)
+      } else {
+        setData({ userName: username, password })
+        router.replace(`/pages/2fa-config`)
       }
-      const tipo2FA = response.data.message
-      setData({ userName: username, password, selected2FAMethod: tipo2FA })
-
-      router.replace(`/pages/login/2fa-verify/${tipo2FA}`)
     } catch (err: any) {
       console.error(err)
       setError("Usuario o contraseña incorrectos")

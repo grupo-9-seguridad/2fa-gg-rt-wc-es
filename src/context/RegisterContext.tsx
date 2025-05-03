@@ -14,22 +14,29 @@ type RegisterData = {
 type RegisterContextType = {
   data: RegisterData
   setData: (data: RegisterData) => void
+  resetData: () => void
+}
+
+const initialData: RegisterData = {
+  userName: '',
+  password: '',
+  email: '',
+  phone: '',
+  qrCode: '',
+  selected2FAMethod: undefined,
 }
 
 const RegisterContext = createContext<RegisterContextType | undefined>(undefined)
 
 export function RegisterProvider({ children }: { children: ReactNode }) {
-  const [data, setData] = useState<RegisterData>({
-    userName: '',
-    password: '',
-    email: '',
-    phone: '',
-    qrCode: '',
-    selected2FAMethod: undefined,
-  })
+  const [data, setData] = useState<RegisterData>(initialData)
+
+  const resetData = () => {
+    setData(initialData)
+  }
 
   return (
-    <RegisterContext.Provider value={{ data, setData }}>
+    <RegisterContext.Provider value={{ data, setData, resetData }}>
       {children}
     </RegisterContext.Provider>
   )

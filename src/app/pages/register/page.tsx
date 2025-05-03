@@ -10,13 +10,13 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
-  const { setData } = useRegister()
+  const { setData, resetData } = useRegister()
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-
+    resetData()
     if (!username || !password) {
       setError('Todos los campos son obligatorios.')
       return
