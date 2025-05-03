@@ -19,7 +19,7 @@ export default function EmailVerifyPage() {
     try {
       const requestData = {
         username: data.userName,
-        code: code,
+        codigo: code,
         recordar: false
       };
 

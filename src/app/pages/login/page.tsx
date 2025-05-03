@@ -27,8 +27,22 @@ export default function LoginPage() {
         return setError(response.data.message)
       }
 
-      if (!response.data.tiene2FA) {
-        router.replace("/pages/2fa-config")
+      if (response.data.tiene2FA) {
+        const requestData = {
+          username,
+          password,
+        };
+        console.log(requestData)
+
+        const verifier = await api.post('/FactorGenerate', requestData)
+        console.log(verifier)
+        if(verifier.data.hasError){
+          return setError(verifier.data.message)
+        }    
+
+      // if (response.data.tiene2FA) {
+        // router.replace("/pages/dashboard")
+        router.replace(`/pages/login/2fa-verify/${response.data.messag}`)
       }
       const tipo2FA = response.data.message
       setData({ userName: username, password, selected2FAMethod: tipo2FA })
