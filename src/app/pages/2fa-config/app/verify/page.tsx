@@ -37,20 +37,14 @@ export default function AppVerifyPage() {
     } finally {
       setLoading(false)
     }
-
-    // if (success) {
-    //   const timer = setTimeout(() => {
-    //     router.replace("/dashboard")
-    //   }, 5000)
-    //   return () => clearTimeout(timer)
-    // }
+  
   }
 
   useEffect(() => {
       if (success) {
         const timer = setTimeout(() => {
           router.replace('/pages/dashboard')
-        }, 5000)
+        }, 3000)
     
         return () => clearTimeout(timer)
       }

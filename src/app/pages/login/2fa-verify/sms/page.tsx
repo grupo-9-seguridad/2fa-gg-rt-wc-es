@@ -44,7 +44,7 @@ export default function SMSVerification() {
     if (success !== '') {
       const timer = setTimeout(() => {
         router.replace('/pages/dashboard')
-      }, 5000)
+      }, 3000)
   
       return () => clearTimeout(timer)
     }
@@ -53,7 +53,7 @@ export default function SMSVerification() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-4">
       <h1 className="text-2xl font-bold mb-4">Verificación por SMS</h1>
-      <p className="mb-6 text-center max-w-sm">Ingresa el código de 6 dígitos que hemos enviado a tu teléfono móvil.</p>
+      <p className="mb-6 text-center max-w-sm">Ingresa el código que hemos enviado a tu teléfono móvil.</p>
       <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-sm">
         <input
           type="text"

@@ -44,7 +44,7 @@ export default function AppVerification() {
     if (success !== '') {
       const timer = setTimeout(() => {
         router.replace('/pages/dashboard')
-      }, 5000)
+      }, 3000)
   
       return () => clearTimeout(timer)
     }
